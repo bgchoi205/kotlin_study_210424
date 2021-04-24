@@ -34,7 +34,7 @@ fun getArticleById(id : Int) : Article?{
     return null
 }
 
-fun articleFilterPrint(page : Int, keyword : String){
+fun articleFilter(page : Int, keyword : String) : List<Article>{
 
     var articles1 = articles
     if(keyword.isNotEmpty()){
@@ -53,10 +53,11 @@ fun articleFilterPrint(page : Int, keyword : String){
     if(endIndex < 0){
         endIndex = 0
     }
-
+    var articles2 = mutableListOf<Article>()
     for(i in startIndex downTo endIndex){
-        println("번호 : ${articles1[i].id} / 등록날짜 : ${articles1[i].regDate} / 제목 : ${articles1[i].title}")
+        articles2.add(articles1[i])
     }
+    return articles2
 }
 
 fun main(){
@@ -91,7 +92,10 @@ fun main(){
                 page = inputInformation[3].toInt()
             }
 
-            articleFilterPrint(page, keyword)
+            val filteredArticles = articleFilter(page, keyword)
+            for(article in filteredArticles){
+                println("번호 : ${article.id} / 등록날짜 : ${article.regDate} / 제목 : ${article.title} / ")
+            }
 
         }
         else if(cmd.startsWith("article detail ")){
